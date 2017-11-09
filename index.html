@@ -1,0 +1,270 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <title>{{.Title}}</title>
+      <meta name="description" content="{{.Description}}">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="robots" content="all">
+      <meta name="yandex-verification" content="fa37c634dd996aad" />
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content="http://{{.Info.UserName}}.tggram.com" />
+
+      <meta property="og:title" content="{{.Title}}">
+      {{if .Image }}
+        <meta property="og:image" content="{{.Image}}">
+      {{end}}
+      {{if .Video }}
+        <meta property="og:video" content="{{.Video}}">
+      {{end}}
+      <meta property="og:description" content="{{.Description}}">
+
+      <link rel="apple-touch-icon" href="apple-touch-icon.png">
+      <!-- Place favicon.ico in the root directory -->
+      {{if .Info.Photo }}
+        <link rel="icon" href="{{.Info.Photo.SmallFileID}}">
+      {{end}}
+
+      <link href="//tggram.com/media/main.min.css" rel="stylesheet">
+      <link href="//tggram.com/media/index.css" rel="stylesheet">
+      <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+      <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+      <link href="http://{{.Info.UserName}}.tggram.com/feed/rss" rel="alternate" type="application/rss+xml" />
+
+      {{ $lang := .Lang}}
+      {{ $uri := .Uri}}
+      {{ if eq $uri "post" }}
+        {{ if eq $lang "ru_RU" }}
+            <script type="text/javascript" src="//vk.com/js/api/openapi.js?149"></script>
+            
+            <script type="text/javascript">
+                VK.init({apiId: 6216142, onlyWidgets: true});
+            </script>
+        {{ end }}
+      {{ end }}
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109066561-1"></script>
+      <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-109066561-1');
+      </script>
+    </head>
+    <body>
+      {{ if eq $uri "post" }}
+        {{ if eq $lang "en_US" }}
+            <div id="fb-root"></div>
+            <script>(function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/{{$lang}}/sdk.js#xfbml=1&version=v2.10&appId=1915537068684440";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
+        {{ end }}
+      {{ end }}
+      <div class="siteContainer">
+        <header class="siteHeader ">
+             
+            <a href="/" class="siteHeader-avatar">
+
+
+              {{if .Info.Photo }}
+                <img src="{{.Info.Photo.SmallFileID}}" class="u-square">
+              {{end}}
+            </a>
+            
+            
+            <h1 class="siteHeader-title">
+                <a href="/">{{.Info.UserName }}</a>
+            </h1>
+            
+            
+            <p class="siteHeader-description">{{.Info.Description | getDescr}}<br/><br/><a href="https://t.me/{{.Info.UserName }}" target="_blank">t.me/{{.Info.UserName }}</a></p>
+            
+            
+            <button class="siteHeader-searchToggle" type="button">
+                
+            </button>
+            
+            
+            
+            
+            
+        </header>
+        <section class="posts">
+       
+        {{range .Msgs}}
+        
+        {{$note := urgentNote . -}}
+        {{if $note -}}
+            {{$note}}
+            <footer class="post-footer">
+                <div class="post-options">
+                    <div class="post-shareContainer">
+                        <span class="post-share">
+                            <i class="fa fa-share"></i>
+                            <i class="fa fa-close u-scaleOut"></i>
+                            <ul class="post-shareButtons">
+                                <li>
+                                    <a href="/post/{{.MessageID}}">
+                                        <i class="fa fa-link"></i> Permalink
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="mailto:?Body=http://{{.Chat.UserName}}.tggram.com/post/{{.MessageID}}">
+                                        <i class="fa fa-envelope-o"></i> Email
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="http://www.facebook.com/sharer.php?u=http://{{.Chat.UserName}}.tggram.com/post/{{.MessageID}}" target="_blank">
+                                        <i class="fa fa-facebook"></i> facebook
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://plus.google.com/share?url=http://{{.Chat.UserName}}.tggram.com/post/{{.MessageID}}" target="_blank">
+                                    <i class="fa fa-google-plus"></i> Google+
+                                </a>
+                                </li>
+                                <li>
+                                    <a href="http://twitter.com/share?url=http://{{.Chat.UserName}}.tggram.com/post/{{.MessageID}}" target="_blank">
+                                        <i class="fa fa-twitter"></i> Twitter
+                                    </a>
+                                </li>
+                            </ul><!-- /.post-shareButtons -->
+                        </span><!-- /.post-share-->
+                    </div><!-- /.post-shareContainer -->
+                  <a href="/post/{{.MessageID}}" class="post-date" data-timeago="{{.Date | formatAsTimeAgo}}" data-datetime="{{.Date | formatAsDate}}">
+                    {{.Date | formatAsTimeAgo}}
+                    </a>
+                    <a href="https://t.me/{{.Chat.UserName}}/{{.MessageID}}" target="_blank">
+                        t.me/{{.Chat.UserName}}/{{.MessageID}}
+                    </a>
+                </div><!-- /.post-options -->
+                {{ if eq $uri "post"  }}
+                <p></p>
+                    {{ if eq $lang "ru_RU" }}
+                        <div id="vk_like"></div>
+                        <script type="text/javascript">
+                        VK.Widgets.Like("vk_like", {type: "full", height: 30});
+                        </script>
+                        <!-- Put this div tag to the place, where the Comments block will be -->
+                        <p></p>
+                        <div id="vk_comments"></div>
+                        <script type="text/javascript">
+                        VK.Widgets.Comments("vk_comments", {limit: 5,  attach: "photo,video"});
+                        </script>
+                    {{else}}
+                        <div class="fb-like" data-href="http://{{.Chat.UserName}}.tggram.com/post/{{.MessageID}}" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+                        <div class="fb-comments" data-href="http://{{.Chat.UserName}}.tggram.com/post/{{.MessageID}}"  data-numposts="5"></div>
+                    {{ end }}
+                {{ end }}
+              </footer>
+            </article>        
+        {{- end}}
+        {{end}}
+
+      </section>
+      <footer class="siteFooter previousNext">
+        {{ if ne .Before 0 }}
+            <a href="/page/{{.Before}}" class="siteFooter-previous">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        {{end}}
+        
+        {{ if .HasFooter}}
+
+            <div class="siteFooter-pageCount">&nbsp;.&nbsp;.&nbsp;.&nbsp;</div>
+
+        {{end}}
+        {{ if ne .Next 0 }}    
+            <a href="/page/{{.Next}}" class="siteFooter-next">
+                <i class="fa fa-angle-right"></i>
+            </a>
+            
+            <button class="siteFooter-loadMore" type="button">
+                Load more posts
+            </button>
+        {{end}}
+        <p>
+            <!-- Yandex.Metrika informer --> <a href="https://metrika.yandex.ru/stat/?id=46197639&amp;from=informer" target="_blank" rel="nofollow"><img src="https://informer.yandex.ru/informer/46197639/3_0_FFFFFFFF_EFEFEFFF_0_pageviews" style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" class="ym-advanced-informer" data-cid="46197639" data-lang="ru" /></a> <!-- /Yandex.Metrika informer --> <!-- Yandex.Metrika counter --> <script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter46197639 = new Ya.Metrika({ id:46197639, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/46197639" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
+        </p>
+        <p>
+            <a href="http://tggram.com">TgGram</a>&nbsp;&nbsp;&nbsp;<a href="http://{{.Info.UserName}}.tggram.com/feed/rss">RSS</a>
+        </p>
+      </footer>
+      </div><!-- /.siteContainer -->
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
+      <script>
+          
+            var figure = $(".video").hover( hoverVideo, hideVideo );
+
+            function hoverVideo(e) {  
+                $('video', this).get(0).play(); 
+            }
+
+            function hideVideo(e) {
+                $('video', this).get(0).pause(); 
+            }
+
+            function toggleShare(){
+                $(this).find(".post-shareButtons").toggleClass("is-visible");
+                $(this).find(".fa-share").toggleClass("u-scaleOut");
+                $(this).find(".fa-close").toggleClass("u-scaleOut")
+            }
+            function toggleLike(){
+                var e=$(this).next(".post-like");
+                e.find(".heart-empty").toggleClass("u-scaleOut");
+                e.find(".heart-filled").toggleClass("u-scaleOut")
+            }
+
+            function toggleSearch(){
+                var e=$(".searchContainer"),t=$(".search"),n=$(".screen");
+                e.addClass("is-visible");t.focus();
+                n.addClass("is-visible")
+            }
+            function paginateSearch(e){
+                var t=$(this).val().trim(),n="/search/"+t,r=$(".searchContainer-results"),i=$(".searchContainer-summary"),s=$(".searchContainer-more");
+                if(t!=""){$.ajax(n).done(function(t){var o=$(t).find(".post"),u=$(t).find(".results");if(o.length>0){if(e.data.carousel){o.find(".photoset-wrapper").each(buildPhotoset);
+                r.html(o)}else{r.html(o);$(".photoset-wrapper").photosetGrid({gutter:"3px"})}i.html(u);
+                s.html('<a href="'+n+'">'+e.data.seeMore+"</a>");
+                if(e.data.comments){$.getScript("https://"+disqus_shortname+".disqus.com/count.js")}}else{i.html(u);r.html("");s.html("")}})}
+            }
+            
+            function toggleHeaders(){if($(window).width()<832){$(this).next().toggle();$(this).find(".fa").toggleClass("fa-caret-up fa-caret-down")}}
+            function createModal(){var e=$('<div class="modal"><i class="fa fa-circle-o-notch fa-spin modal-spinner"></i></div>'),t=$("<img>").attr("src",$(this).data("highres"));$("body").append(e);$(".modal").fadeIn(300);t.load(function(){e.html(t)})}
+            function removeModal(){$(this).fadeOut(300,function(){this.remove()})}
+            function paginate(e,t,n,r,i,s){function a(){var t="";if(location.href.indexOf("/tagged/")>=0||location.href.indexOf("/search/")>=0){t=location.href+"/page/"+e}else{t="/page/"+e}return t}function f(e){if(t==="infiniteScroll"){e.html("")}else if(t==="loadMoreButton"){e.html(n)}}function l(t,n,l){l.html('<i class="fa fa-circle-o-notch fa-spin"></i>');$.ajax(a()).done(function(a){var c=$(a).find(".post");if(c.length>0){if(s){c.find(".photoset-wrapper").each(buildPhotoset);u.append(c)}else{u.append(c);$(".photoset-wrapper").photosetGrid({gutter:"3px"})}e++;if(i){$.getScript("https://"+disqus_shortname+".disqus.com/count.js")}f(l)}else{$(window).off(t,n);l.html(r);l.delay(3e3).fadeOut()}o=false})}function c(){if(!o&&$(window).scrollTop()>=$(document).height()-$(window).height()*3){o=true;l("scroll",c,$(".siteFooter"))}}function h(){if(!o){o=true;l("click",h,$(".siteFooter-loadMore"))}}function p(){if(t==="infiniteScroll"){$(window).on("scroll",c)}else if(t==="loadMoreButton"){$(".siteFooter-loadMore").on("click",h)}}var e=e+1,o=false,u=$(".posts"),t=t,n=n,r=r,i=i,s=s;p()}function closeScreen(){$(".searchContainer").removeClass("is-visible");$(".search").blur();$(".screen").removeClass("is-visible")}$("body").on("mouseover",".post-date",function(){$(this).html($(this).data("datetime"))}).on("mouseout",".post-date",function(){$(this).html($(this).data("timeago"))});$(".siteHeader h2").on("click",toggleHeaders);$(".screen").on("click",closeScreen)
+          $(function() {
+              
+             // PHOTOSET
+             
+             //$('.photoset-wrapper').each(buildPhotoset);
+             //$('body').on('click', '.photoset-wrapper', advancePhotoset);
+                
+             // SHARE
+             $('body').on('click', '.post-share', toggleShare);
+             
+              // LIKE   
+              $('body').on('click', '.like_button', toggleLike);
+              
+              // COMMENTS
+              
+              // SEARCH
+              $('.siteHeader-searchToggle').on('click', toggleSearch);
+              $('.search').on('keyup', { comments:  false, carousel: true , seeMore: 'See more'}, paginateSearch);
+              
+              // MODAL
+              $('body').on('click', '.photo-modalToggle', createModal);
+              $('body').on('click', '.modal', removeModal);
+              
+          });
+          
+      </script>
+      
+      
+    </body>
+
+</html>
